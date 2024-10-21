@@ -3,20 +3,16 @@ import asyncio
 from colorama import Fore, init
 import os
 
-# Initialize Colorama for colored output
 init(autoreset=True)
 
-# Function to clear the terminal screen
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-# Function to center text for neat alignment
 def center_text(text):
     terminal_width = os.get_terminal_size().columns
     centered_lines = [line.center(terminal_width) for line in text.splitlines()]
     return "\n".join(centered_lines)
 
-# Function to display a multicolored logo
 def display_logo():
     logo = r"""
     {pink} __   __          _____ _____  ______ _   _  _____    _____ ______ _      ______ ____   ____ _______ 
@@ -28,13 +24,11 @@ def display_logo():
     """.format(pink=Fore.MAGENTA, blue=Fore.CYAN)
     print(center_text(logo))
 
-# Prompt the user to press Enter
 async def press_enter():
     print(center_text(Fore.CYAN + '-' * 80))  # Add a cyan line
     print(center_text(Fore.GREEN + "Press Enter to continue..."))  # Prompt
     input()
 
-# Display the main menu
 def display_menu():
     terminal_width = os.get_terminal_size().columns
     border_colors = [Fore.MAGENTA, Fore.CYAN]
@@ -173,7 +167,6 @@ class MySelfbot(discord.Client):
             choice = input(Fore.YELLOW + "Choose an option: ")
 
             if choice == '1':
-                # Message Spammer
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.list_channels(server)
@@ -183,36 +176,30 @@ class MySelfbot(discord.Client):
                 await self.send_message(channel.id, message, count)
 
             elif choice == '2':
-                # Server Nuker
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.nuker(server)
 
             elif choice == '3':
-                # Mass Ban
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.mass_ban(server)
 
             elif choice == '4':
-                # Mass DM
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 message = input("Enter the DM message: ")
                 await self.mass_dm(server, message)
 
             elif choice == '5':
-                # Server Info
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.server_info(server)
 
             elif choice == '6':
-                # Account Nuker
                 await self.account_nuker()
 
             elif choice == '7':
-                # Server Permissions
                 await self.list_server_permissions()
 
             elif choice == '8':
@@ -253,14 +240,13 @@ class MySelfbot(discord.Client):
         """Display permissions for each server the bot is in."""
         print("Server Permissions:")
         for idx, guild in enumerate(self.guilds):
-            permissions = guild.me.guild_permissions  # Get the bot's permissions in the guild
+            permissions = guild.me.guild_permissions  
             print(f"\n{idx + 1}. {guild.name} - Permissions:")
             for perm, value in permissions:
                 print(f"   - {perm}: {'Yes' if value else 'No'}")
 
     async def webhook_spammer(self):
         """Create 5 webhooks in a channel and spam a message."""
-        # Select server and channel (not shown here for brevity)
         await self.list_servers()
         server = self.guilds[int(input("Choose a server: ")) - 1]
         await self.list_channels(server)
@@ -270,7 +256,6 @@ class MySelfbot(discord.Client):
         print("Making webhooks...")
 
         webhooks = []
-        # Create 5 webhooks
         for i in range(5):
             webhook = await channel.create_webhook(name=f"SpammerWebhook{i+1}")
             webhooks.append(webhook)
@@ -281,7 +266,6 @@ class MySelfbot(discord.Client):
                 print(f'Webhook {webhook.name} sent message: {message}')
                 await asyncio.sleep(1)
 
-        # Delete the webhooks after spamming
         for webhook in webhooks:
             await webhook.delete()
             print(f'Deleted webhook: {webhook.name}')
