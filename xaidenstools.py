@@ -30,6 +30,11 @@ async def press_enter():
     print(center_text(Fore.GREEN + "Press Enter to continue..."))  # Prompt
     input()
 
+def get_option_input():
+    """Display a cool arrow-styled prompt for choosing an option."""
+    arrow_prompt = f"{Fore.MAGENTA}➜ {Fore.CYAN}user@xaidselfbot {Fore.GREEN}> {Fore.RESET}"
+    return input(arrow_prompt + " Choose your option: ")  
+
 def display_menu():
     terminal_width = os.get_terminal_size().columns
     border_colors = [Fore.MAGENTA, Fore.CYAN]
@@ -165,7 +170,7 @@ class MySelfbot(discord.Client):
         """Display and handle the main menu."""
         while True:
             display_menu()
-            choice = input(Fore.YELLOW + "Choose an option: ")
+            choice = get_option_input()
 
             if choice == '1':
                 await self.list_servers()
@@ -312,7 +317,10 @@ async def main():
     clear_screen()
     display_logo()
     await press_enter()
-    token = input("Enter your Discord token: ")
+
+    arrow_prompt = f"{Fore.MAGENTA}➜ {Fore.CYAN}user@xaidselfbot {Fore.GREEN}> {Fore.RESET}"
+    token = input(arrow_prompt + " Enter your Discord token: ")  # Aligned input at colon
+
     print(f"{Fore.GREEN}Logging in...")
 
     selfbot = MySelfbot()
