@@ -15,7 +15,6 @@ Xaidens Tools is a selfbot for Discord that provides various functionalities, in
 - Server Permissions
 - Webhook Spammer
 
-[  https://github.com/Xaidencodesshit/DiscordPySelfBotRaider/blob/main/image.png](https://raw.githubusercontent.com/Xaidencodesshit/DiscordPySelfBotRaider/refs/heads/main/image.png)
 ## Prerequisites
 
 Before running the selfbot, make sure you have the following:
