@@ -46,7 +46,7 @@ def display_menu():
         for i, option in enumerate([
             "Message Spammer", "Server Nuker", 
             "Mass Ban", "Mass DM", 
-            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer", "Exit"
+            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer", "@everyone Spammer", "Exit"
         ])
     ]
 
@@ -219,6 +219,9 @@ class MySelfbot(discord.Client):
                 await self.webhook_spammer()
 
             elif choice == '9':
+                await self.everyone_spammer()
+
+            elif choice == '10':
                 print("Exiting...")
                 await self.logout()
                 break
@@ -282,6 +285,23 @@ class MySelfbot(discord.Client):
         for webhook in webhooks:
             await webhook.delete()
             print(f'Deleted webhook: {webhook.name}')
+
+    async def everyone_spammer(self):
+        """Send an @everyone message to all text channels in a selected server."""
+        await self.list_servers()
+        server = self.guilds[int(input("Choose a server: ")) - 1]
+        count = int(input("How many times to send @everyone message: "))
+        message = input("Enter the message to send with @everyone: ")
+
+        for channel in server.channels:
+            if isinstance(channel, discord.TextChannel):  
+                for i in range(count):
+                    try:
+                        await channel.send(f"@everyone {message}")
+                        print(f'{Fore.RED}Sent @everyone message {i + 1} to {channel.name}: {message}')
+                        await asyncio.sleep(1)  
+                    except (discord.Forbidden, discord.HTTPException) as e:
+                        print(f"Failed to send @everyone message in {channel.name}: {e}")
 
 async def main():
     """Main entry point for the selfbot."""
