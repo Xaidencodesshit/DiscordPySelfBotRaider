@@ -26,10 +26,11 @@ Before running the selfbot, make sure you have the following:
 You can install the required libraries using:
 
 ```bash
-pip install discord.py colorama discord.py-self```
+pip install discord.py colorama discord.py-self
+```
 
 
-Getting Your Discord Token
+# Getting Your Discord Token
 To use the selfbot, you need your Discord user token. Follow these steps to obtain it:
 
 Open Discord in your web browser (not the desktop app).
