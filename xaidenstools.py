@@ -30,7 +30,8 @@ def display_logo():
 
 # Prompt the user to press Enter
 async def press_enter():
-    print(center_text(Fore.GREEN + "Press Enter to continue..."))
+    print(center_text(Fore.CYAN + '-' * 80))  # Add a cyan line
+    print(center_text(Fore.GREEN + "Press Enter to continue..."))  # Prompt
     input()
 
 # Display the main menu
