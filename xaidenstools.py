@@ -8,6 +8,7 @@ init(autoreset=True)
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def center_text(text):
     terminal_width = os.get_terminal_size().columns
     centered_lines = [line.center(terminal_width) for line in text.splitlines()]
@@ -40,7 +41,7 @@ def display_menu():
         for i, option in enumerate([
             "Message Spammer", "Server Nuker", 
             "Mass Ban", "Mass DM", 
-            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer", "@everyone Spammer", "Exit"
+            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer", "@everyone Spammer", "Mass Create Channels", "Exit"
         ])
     ]
 
@@ -209,6 +210,11 @@ class MySelfbot(discord.Client):
                 await self.everyone_spammer()
 
             elif choice == '10':
+                await self.list_servers()
+                server = self.guilds[int(input("Choose a server: ")) - 1]
+                await self.create_channels(server)
+
+            elif choice == '11':
                 print("Exiting...")
                 await self.logout()
                 break
@@ -286,6 +292,20 @@ class MySelfbot(discord.Client):
                         await asyncio.sleep(1)  
                     except (discord.Forbidden, discord.HTTPException) as e:
                         print(f"Failed to send @everyone message in {channel.name}: {e}")
+
+    async def create_channels(self, server):
+        """Create multiple channels with the same name."""
+        count = int(input("How many channels do you want to create? "))
+        name = input("Enter the name for the channels: ")
+
+        print(f"Creating {count} channels named '{name}' in {server.name}...")
+        for i in range(count):
+            try:
+                await server.create_text_channel(name)
+                print(f"Created channel: {name} ({i + 1}/{count})")
+            except (discord.Forbidden, discord.HTTPException) as e:
+                print(f"Failed to create channel {i + 1}: {e}")
+            await asyncio.sleep(1)
 
 async def main():
     """Main entry point for the selfbot."""
