@@ -46,7 +46,8 @@ def display_menu():
         for i, option in enumerate([
             "Message Spammer", "Server Nuker", 
             "Mass Ban", "Mass DM", 
-            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer", "@everyone Spammer", "Mass Create Channels", "Exit"
+            "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer",
+            "@everyone Spammer", "Mass Create Channels", "Purge Messages", "Exit"
         ])
     ]
 
@@ -219,7 +220,15 @@ class MySelfbot(discord.Client):
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.create_channels(server)
 
-            elif choice == '11':
+            elif  choice == '11':
+                await self.list_servers()
+                server = self.guilds[int(input("Choose a server: ")) - 1]
+                await self.list_channels(server)
+                channel = server.channels[int(input("Choose a channel: ")) - 1]
+                count = int(input("Enter the number of messages to delete: "))
+                await self.purge_messages(channel, count)
+
+            elif choice == '12':
                 print("Exiting...")
                 await self.logout()
                 break
@@ -312,6 +321,15 @@ class MySelfbot(discord.Client):
                 print(f"Failed to create channel {i + 1}: {e}")
             await asyncio.sleep(1)
 
+    async def purge_messages(self, channel, count):
+        """Delete a specified number of messages from a channel."""
+        print(f"Purging {count} messages from {channel.name}...")
+        try:
+            deleted = await channel.purge(limit=count)
+            print(f"{len(deleted)} messages deleted successfully.")
+        except (discord.Forbidden, discord.HTTPException) as e:
+            print(f"Failed to purge messages: {e}")
+
 async def main():
     """Main entry point for the selfbot."""
     clear_screen()
@@ -319,7 +337,7 @@ async def main():
     await press_enter()
 
     arrow_prompt = f"{Fore.MAGENTA}➜ {Fore.CYAN}user@xaidselfbot {Fore.GREEN}> {Fore.RESET}"
-    token = input(arrow_prompt + " Enter your Discord token: ")  # Aligned input at colon
+    token = input(arrow_prompt + " Enter your Discord token: ")  
 
     print(f"{Fore.GREEN}Logging in...")
 
