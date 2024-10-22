@@ -16,6 +16,7 @@ Xaidens Tools is a selfbot for Discord that provides various functionalities, in
 - Webhook Spammer
 - Mass @everyone Ping
 - Mass Channel Create
+- Purge messages
 
 ## Prerequisites
 
@@ -24,6 +25,7 @@ Before running the selfbot, make sure you have the following:
 - Python 3.8 or higher
 - Discord.py library
 - Colorama library
+- Discord.py-self libray
 
 You can install the required libraries using:
 
