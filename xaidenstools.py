@@ -1,4 +1,5 @@
 import discord
+from discord.errors import LoginFailure
 import asyncio
 from colorama import Fore, init
 import os
@@ -342,7 +343,13 @@ async def main():
     print(f"{Fore.GREEN}Logging in...")
 
     selfbot = MySelfbot()
-    await selfbot.start(token)
+
+    try:
+        await selfbot.start(token)
+    except LoginFailure:
+        print(f"{Fore.RED}Error: Invalid token. Please check and try again.")
+    except Exception as e:
+        print(f"{Fore.RED}An unexpected error occurred: {e}")
 
 if __name__ == '__main__':
     asyncio.run(main())
