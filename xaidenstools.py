@@ -108,7 +108,7 @@ class MySelfbot(discord.Client):
                     print(f"Banned: {member.name}#{member.discriminator}")
                 except (discord.Forbidden, discord.HTTPException) as e:
                     print(f"Failed to ban {member.name}: {e}")
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.5)
 
     async def mass_dm(self, server, message):
         """Send DMs to all members in the server."""
@@ -304,7 +304,7 @@ class MySelfbot(discord.Client):
                     try:
                         await channel.send(f"@everyone {message}")
                         print(f'{Fore.RED}Sent @everyone message {i + 1} to {channel.name}: {message}')
-                        await asyncio.sleep(1)  
+                        await asyncio.sleep(0.005)
                     except (discord.Forbidden, discord.HTTPException) as e:
                         print(f"Failed to send @everyone message in {channel.name}: {e}")
 
@@ -320,7 +320,7 @@ class MySelfbot(discord.Client):
                 print(f"Created channel: {name} ({i + 1}/{count})")
             except (discord.Forbidden, discord.HTTPException) as e:
                 print(f"Failed to create channel {i + 1}: {e}")
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.05)
 
     async def purge_messages(self, channel, count):
         """Delete a specified number of messages from a channel."""
