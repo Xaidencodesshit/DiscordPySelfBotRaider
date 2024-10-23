@@ -76,7 +76,7 @@ class MySelfbot(discord.Client):
             for i in range(spam_count):
                 await channel.send(message)
                 print(f'{Fore.RED}Sent message {i + 1}: {message}')
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.05)
         else:
             print(f'Channel with ID {channel_id} not found.')
 
@@ -108,7 +108,7 @@ class MySelfbot(discord.Client):
                     print(f"Banned: {member.name}#{member.discriminator}")
                 except (discord.Forbidden, discord.HTTPException) as e:
                     print(f"Failed to ban {member.name}: {e}")
-                await asyncio.sleep(0.5)
+                await asyncio.sleep(0.05)
 
     async def mass_dm(self, server, message):
         """Send DMs to all members in the server."""
@@ -137,7 +137,7 @@ class MySelfbot(discord.Client):
                 print(f"Left server: {guild.name}")
             except (discord.Forbidden, discord.HTTPException) as e:
                 print(f"Failed to leave {guild.name}: {e}")
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.05)
 
     async def mass_dm_friends(self, message):
         """Send DMs to all friends."""
@@ -285,7 +285,7 @@ class MySelfbot(discord.Client):
             for webhook in webhooks:
                 await webhook.send(message)
                 print(f'Webhook {webhook.name} sent message: {message}')
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.05)
 
         for webhook in webhooks:
             await webhook.delete()
