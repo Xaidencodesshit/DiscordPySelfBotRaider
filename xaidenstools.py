@@ -9,7 +9,6 @@ init(autoreset=True)
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
 def center_text(text):
     terminal_width = os.get_terminal_size().columns
     centered_lines = [line.center(terminal_width) for line in text.splitlines()]
@@ -349,7 +348,7 @@ async def main():
     except LoginFailure:
         print(f"{Fore.RED}Error: Invalid token. Please check and try again.")
     except Exception as e:
-        print(f"{Fore.RED}An unexpected error occurred: {e}")
+        print(f"{Fore.RED}An unexpected error occurred: {e}, Please try again.")
 
 if __name__ == '__main__':
     asyncio.run(main())
