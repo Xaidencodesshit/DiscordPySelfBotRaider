@@ -4,6 +4,8 @@
 
 Xaidens Tools is a selfbot for Discord that provides various functionalities, including message spamming, server nuking, mass banning, and more.
 
+![Main Menu](https://i.imgur.com/FfIAGJ0.png)
+
 ## Features
 
 - Message Spammer
