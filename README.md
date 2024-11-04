@@ -17,6 +17,7 @@ Xaidens Tools is a selfbot for Discord that provides various functionalities, in
 - Mass @everyone Ping
 - Mass Channel Create
 - Purge messages
+- Full Nuke(Channels And MSpam Make Channels)
 
 ## Prerequisites
 
