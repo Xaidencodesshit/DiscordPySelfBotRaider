@@ -3,6 +3,8 @@ from discord.errors import LoginFailure
 import asyncio
 from colorama import Fore, init
 import os
+import re 
+import requests
 
 init(autoreset=True)
 
@@ -47,7 +49,7 @@ def display_menu():
             "Message Spammer", "Server Nuker", 
             "Mass Ban", "Mass DM", 
             "Server Info", "Account Nuker", "Server Permissions", "Webhook Spammer",
-            "@everyone Spammer", "Mass Create Channels", "Purge Messages", "Full Nuke", "Exit"
+            "@everyone Spammer", "Mass Create Channels", "Purge Messages", "Full Nuke", "Webhook Deleter", "Exit"
         ])
     ]
 
@@ -232,8 +234,11 @@ class MySelfbot(discord.Client):
                 await self.list_servers()
                 server = self.guilds[int(input("Choose a server: ")) - 1]
                 await self.full_server_nuke(server)  
-
+            
             elif choice == '13':
+                webhook_deleter()
+
+            elif choice == '14':
                 print("Exiting...")
                 await self.logout()
                 break
@@ -357,6 +362,31 @@ class MySelfbot(discord.Client):
             except (discord.Forbidden, discord.HTTPException) as e:
                 print(f"Failed to create channel {i + 1}: {e}")
             await asyncio.sleep(0.05)
+
+def webhook_deleter():
+    """Delete a Discord webhook."""
+    while True:
+        webhook_url = input("Enter the full Discord webhook URL (or type 'exit' to cancel): ").strip()
+        
+        if webhook_url.lower() == "exit":
+            print(f"{Fore.YELLOW}Canceled: Returning to the main menu.")
+            return
+        
+        if not re.match(r"^https://discord\.com/api/webhooks/[\w-]+/[\w-]+$", webhook_url):
+            print(f"{Fore.RED}Error: Invalid webhook URL format. Please try again.")
+            continue
+        
+        try:
+            response = requests.delete(webhook_url)
+            if response.status_code == 204:
+                print(f"{Fore.GREEN}Success: The webhook was successfully deleted.")
+            elif response.status_code == 404:
+                print(f"{Fore.RED}Error: Webhook not found (it may already be deleted).")
+            else:
+                print(f"{Fore.RED}Error: Failed to delete the webhook. Status code: {response.status_code}")
+        except requests.RequestException as e:
+            print(f"{Fore.RED}Error: An exception occurred while deleting the webhook. Details: {e}")
+        break
 
 async def main():
     """Main entry point for the selfbot."""
